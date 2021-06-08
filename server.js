@@ -5,7 +5,7 @@ const favicon = require("express-favicon");
 const sequelize = require("./config/connection");
 
 // Controllers
-const apiRoutes = require("./controllers/routes");
+const routes = require("./controllers/routes");
 
 // Express static serve
 const path = require("path");
@@ -31,8 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public"))); // css, js
 
-// serve routes
-app.use("/api", apiRoutes); // Database routes
+// serve controller routes
+app.use(routes); // Database routes
 
 // Open server
 sequelize.sync({ force: false }).then(() => {
