@@ -1,7 +1,15 @@
 const router = require("express").Router();
 
+const withAuth = (req, res, next) => {
+  if (!req.session.user_id) {
+    res.redirect("/login");
+  } else {
+    next();
+  }
+};
+
 // Home page
-router.get("", (req, res) => {
+router.get("", withAuth, (req, res) => {
   const data = {
     tempData: "home",
   };
@@ -9,9 +17,9 @@ router.get("", (req, res) => {
 });
 
 // Dashboard
-router.get("/dashboard", (req, res) => {
+router.get("/dashboard", withAuth, (req, res) => {
   const data = {
-    tempData: "dashboard",
+    tempData: req.session.user_id,
   };
   res.render("dashboard", data);
 });

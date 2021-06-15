@@ -2,6 +2,12 @@ const router = require("express").Router();
 
 // login page
 router.get("/login", (req, res) => {
+  if (req.session.loggedIn) {
+    console.log("You are logged in...");
+    res.redirect("/");
+    return;
+  }
+
   const data = {
     tempData: "login",
   };
