@@ -20,6 +20,17 @@ footer {
   text-align: center;
 }
 
+nav button {
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
+  color: #fff;
+  font-weight: bold;
+  transition: 0.1s;
+}
+nav button:hover {
+  color: #2d75cc;
+}
+
 h1,
 h2,
 h3 {
@@ -47,6 +58,7 @@ a {
   color: #fff;
   font-weight: bold;
   transition: color 0.1s;
+  margin: 10px;
 }
 
 p,

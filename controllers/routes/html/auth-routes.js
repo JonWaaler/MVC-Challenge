@@ -9,6 +9,7 @@ router.get("/login", (req, res) => {
   }
 
   const data = {
+    loggedIn: req.session.loggedIn,
     tempData: "login",
   };
   res.render("login", data);
@@ -17,6 +18,7 @@ router.get("/login", (req, res) => {
 // logout page
 router.get("/logout", (req, res) => {
   const data = {
+    loggedIn: req.session.loggedIn,
     tempData: "logout",
   };
   res.render("login", data);

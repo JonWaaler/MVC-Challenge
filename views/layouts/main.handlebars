@@ -24,18 +24,22 @@
   </head>
   <body>
     <header>
-      <h1>
-        <a href="/">Tech Blog Shorts</a>
-      </h1>
-      <nav class="navbar">
-        {{#if loggedIn}}
+      <div
+        class="container d-flex flex-column flex-md-row align-items-center pb-3 mb-4"
+      >
+        <h1 class="">
+          <a href="/">Tech Blog Shorts</a>
+        </h1>
+        <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
           <a class="" href="/">Home</a>
           <a class="" href="/dashboard">Dashboard</a>
-          <button id="logout">logout</button>
-        {{else}}
-          <a class="" href="/login">Login</a>
-        {{/if}}
-      </nav>
+          {{#if loggedIn}}
+            <a href=""><button id="logout">logout</button></a>
+          {{else}}
+            <a class="" href="/login">Login</a>
+          {{/if}}
+        </nav>
+      </div>
     </header>
     <main class="container">
       {{{body}}}
@@ -48,7 +52,11 @@
     </footer>
 
     <script src="/javascript/util.js"></script>
-    <script src="/javascript/auth.js"></script>
+    {{#if loggedIn}}
+      <script src="/javascript/logout.js"></script>
+    {{else}}
+      <script src="/javascript/auth.js"></script>
+    {{/if}}
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
   </body>
 </html>

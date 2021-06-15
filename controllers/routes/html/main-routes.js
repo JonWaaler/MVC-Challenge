@@ -9,8 +9,9 @@ const withAuth = (req, res, next) => {
 };
 
 // Home page
-router.get("", withAuth, (req, res) => {
+router.get("", (req, res) => {
   const data = {
+    loggedIn: req.session.loggedIn,
     tempData: "home",
   };
   res.render("home", data);
@@ -19,9 +20,14 @@ router.get("", withAuth, (req, res) => {
 // Dashboard
 router.get("/dashboard", withAuth, (req, res) => {
   const data = {
+    loggedIn: req.session.loggedIn,
     tempData: req.session.user_id,
   };
   res.render("dashboard", data);
+});
+
+router.get("/session", (req, res) => {
+  res.json(req.session);
 });
 
 module.exports = router;

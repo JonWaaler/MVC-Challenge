@@ -49,7 +49,7 @@ app.use(express.static(path.join(__dirname, "public"))); // css, js
 app.use(routes); // Database routes
 
 // Open server
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: false, logging: false }).then(() => {
   app.listen(PORT, () =>
     console.log(`App hosted on: http://localhost:${PORT}/`)
   );
