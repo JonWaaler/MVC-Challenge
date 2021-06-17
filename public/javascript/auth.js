@@ -57,3 +57,10 @@ document
 document
   .querySelector(".signup-form")
   .addEventListener("submit", signupFormHandler);
+
+$("#goLogin").click(function () {
+  alert("lets login instead");
+});
+$("#goSignup").click(function () {
+  alert("lets Sign-up instead");
+});

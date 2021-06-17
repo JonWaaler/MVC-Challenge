@@ -1,6 +1,6 @@
-<div class="row form-bg">
-  <h3 class="row">Login</h3>
-  <form class="login-form row">
+<div id="login-form" class="row form-bg mx-auto justify-content-center">
+  <h3 class="text-center">Login</h3>
+  <form class="login-form row justify-content-center">
     <div class="row">
       <label for="email-login">Email:</label>
       <input type="text" id="email-login" />
@@ -10,13 +10,17 @@
       <input type="password" id="password-login" />
     </div>
     <div>
-      <button class="btn btn-primary" type="submit">Login</button>
+      <button
+        class="btn btn-primary mx-auto d-block"
+        type="submit"
+      >Login</button>
+      <p id="goSignup" style="cursor: pointer;">I don't have an account</p>
     </div>
   </form>
 </div>
-<div class="row form-bg">
-  <h3 class="row">Sign up</h3>
-  <form class="signup-form row">
+<div id="signup-form" class="row form-bg mx-auto justify-content-center">
+  <h3 class="text-center">Sign up</h3>
+  <form class="signup-form row justify-content-center">
     <div class="row">
       <label for="username-signup">Username:</label>
       <input type="text" id="username-signup" />
@@ -30,7 +34,11 @@
       <input type="password" id="password-signup" />
     </div>
     <div>
-      <button class="btn btn-primary" type="submit">Signup</button>
+      <button
+        class="btn btn-primary mx-auto d-block"
+        type="submit"
+      >Signup</button>
+      <p id="goLogin" style="cursor: pointer;">I already have an account</p>
     </div>
   </form>
 </div>
