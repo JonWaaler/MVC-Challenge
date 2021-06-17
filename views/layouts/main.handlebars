@@ -9,6 +9,10 @@
       integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
       crossorigin="anonymous"
     />
+    <script
+      src="https://kit.fontawesome.com/12f791b4ec.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -20,30 +24,43 @@
       href="https://fonts.googleapis.com/css2?family=Odibee+Sans&family=Roboto:ital,wght@1,300&display=swap"
       rel="stylesheet"
     />
-    <title>Tech Blog Shorts</title>
+    <title>&#9997;Tech Blog Shorts&#9997;</title>
   </head>
   <body>
     <header>
-      <div
-        class="container d-flex flex-column flex-md-row align-items-center pb-3 mb-4"
-      >
-        <h1 class="">
-          <a href="/">Tech Blog Shorts</a>
+      <div class="container d-flex flex-column flex-md-row align-items-center">
+        <h1 class="row">
+          <a title="Home - All posts" href="/">Tech Blog Shorts</a>
         </h1>
+
         <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-          <a class="" href="/">Home</a>
-          <a class="" href="/dashboard">Dashboard</a>
+          <a title="Home - All posts" href="/">Home</a>
+          <a title="Dashboard - My posts" href="/dashboard">Dashboard</a>
           {{#if loggedIn}}
-            <a href=""><button id="logout">logout</button></a>
+            <a title="Logout" href=""><button id="logout">logout</button></a>
           {{else}}
-            <a class="" href="/login">Login</a>
+            <a title="Login" href="/login">Login</a>
           {{/if}}
         </nav>
+
+      </div>
+      <div
+        title="Dashboard - My Posts"
+        class="container d-flex justify-content-end mb-3"
+      >
+        {{#if loggedIn}}
+          <a style="margin: auto 0;" href="/dashboard">{{username}}</a>
+          <a href="/dashboard"><i class="fas fa-user-circle fa-2x"></i></a>
+        {{/if}}
       </div>
     </header>
+
     <main class="container">
+
       {{{body}}}
+
     </main>
+
     <footer>
       <div class="social-links">
 
@@ -54,8 +71,6 @@
     <script src="/javascript/util.js"></script>
     {{#if loggedIn}}
       <script src="/javascript/logout.js"></script>
-    {{else}}
-      <script src="/javascript/auth.js"></script>
     {{/if}}
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
   </body>

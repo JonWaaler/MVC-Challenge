@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { User } = require("../../../models");
 
 const withAuth = (req, res, next) => {
   if (!req.session.user_id) {
@@ -10,20 +11,53 @@ const withAuth = (req, res, next) => {
 
 // Home page
 router.get("", (req, res) => {
-  const data = {
-    loggedIn: req.session.loggedIn,
-    tempData: "home",
-  };
-  res.render("home", data);
+  if (req.session.loggedIn) {
+    User.findOne({
+      where: {
+        id: req.session.user_id,
+      },
+      // Later on include ALL post
+    })
+      .then((userData) => {
+        const data = {
+          loggedIn: req.session.loggedIn,
+          username: userData.username,
+          tempData: req.session.user_id,
+        };
+        res.render("home", data);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  } else {
+    const data = {
+      loggedIn: false,
+    };
+    res.render("home", data);
+  }
 });
 
 // Dashboard
 router.get("/dashboard", withAuth, (req, res) => {
-  const data = {
-    loggedIn: req.session.loggedIn,
-    tempData: req.session.user_id,
-  };
-  res.render("dashboard", data);
+  User.findOne({
+    where: {
+      id: req.session.user_id,
+    },
+    // Later on include JUST users posts
+  })
+    .then((userData) => {
+      const data = {
+        loggedIn: req.session.loggedIn,
+        username: userData.username,
+        tempData: req.session.user_id,
+      };
+      res.render("dashboard", data);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 router.get("/session", (req, res) => {

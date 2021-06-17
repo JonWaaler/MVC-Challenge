@@ -13,7 +13,8 @@ html {
 header {
   background-color: #1f2630;
   border-bottom: 1px rgb(182, 182, 182) solid;
-  padding: 20px 0px;
+  padding-top: 20px;
+  margin-bottom: 0px;
 }
 
 footer {
