@@ -58,9 +58,22 @@ document
   .querySelector(".signup-form")
   .addEventListener("submit", signupFormHandler);
 
-$("#goLogin").click(function () {
-  alert("lets login instead");
+// Change between login and signup
+// Defaults to login
+$(document).ready(function () {
+  $("#login-form").show();
+  $("#signup-form").hide();
 });
-$("#goSignup").click(function () {
-  alert("lets Sign-up instead");
-});
+
+if ($("#goLogin")) {
+  $("#goLogin").click(function () {
+    $("#login-form").show();
+    $("#signup-form").hide();
+  });
+}
+if ($("#goSignup")) {
+  $("#goSignup").click(function () {
+    $("#signup-form").show();
+    $("#login-form").hide();
+  });
+}
