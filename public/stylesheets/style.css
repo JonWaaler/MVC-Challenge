@@ -57,6 +57,9 @@ h3 {
 .form-bg button {
   margin-top: 10px;
 }
+#create-short {
+  width: 660px;
+}
 
 a {
   text-decoration: none;
