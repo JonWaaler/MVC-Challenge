@@ -11,6 +11,17 @@
       voluptatum assumenda quos animi enim.</p>
   </div>
 */
+// post information
+const postTitle = document.getElementById("title");
+const postContent = document.getElementById("desc");
+
+function createPost() {
+  postData("/api/posts", {
+    title: postTitle.value,
+    content: postContent.value,
+    userId: 1,
+  });
+}
 
 async function postData(url = "", data = {}) {
   // Default options are marked with *
@@ -26,9 +37,7 @@ async function postData(url = "", data = {}) {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Posted Data id:", data.id);
-      delFlashcards();
-      populateCardsAtStart();
+      console.log("Posted Data:", data.id);
     });
   //return response.json(); // parses JSON response into native JavaScript objects
 }
