@@ -10,17 +10,27 @@
       Saepe similique atque deleniti in modi, laboriosam optio ipsa non
       voluptatum assumenda quos animi enim.</p>
   </div>
+
+  UserData
+  "user_id": 1,
+  "username": "jonw",
+  "loggedIn": true
 */
 // post information
 const postTitle = document.getElementById("title");
 const postContent = document.getElementById("desc");
 
 function createPost() {
-  postData("/api/posts", {
-    title: postTitle.value,
-    content: postContent.value,
-    userId: 1,
-  });
+  fetch("/session")
+    .then((response) => response.json())
+    .then((userData) => {
+      console.log("fetched user: " + userData);
+      postData("/api/posts", {
+        title: postTitle.value,
+        content: postContent.value,
+        userId: userData.user_id,
+      });
+    });
 }
 
 async function postData(url = "", data = {}) {
