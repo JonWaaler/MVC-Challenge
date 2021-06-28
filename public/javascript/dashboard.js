@@ -1,24 +1,33 @@
-/* POST HTML SET-UP
-<div class="row post mx-auto">
-    <h3 class="title">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-      Debitis quaerat tempora ea cupiditate nisi, quo optio vero distinctio
-      consequuntur culpa!</h3>
-    <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing
-      elit. Dolorum nostrum laudantium ratione repellat voluptatem omnis
-      corporis, cumque officiis magnam aliquid, commodi qui quis! Illo animi
-      praesentium in aut maiores odio distinctio numquam sed corporis natus!
-      Saepe similique atque deleniti in modi, laboriosam optio ipsa non
-      voluptatum assumenda quos animi enim.</p>
-  </div>
-
-  UserData
-  "user_id": 1,
-  "username": "jonw",
-  "loggedIn": true
-*/
 // post information
 const postTitle = document.getElementById("title");
 const postContent = document.getElementById("desc");
+const myPostContainer = document.getElementById("my-posts");
+
+loadDashboardPosts();
+
+function loadDashboardPosts() {
+  // clear html
+  myPostContainer.innerHTML = "";
+
+  // reload in all users posts
+  fetch("/session")
+    .then((response) => response.json())
+    .then((userData) => {
+      // Now that we have the user data we can fetch all
+      // of that users posts for their dashboard!
+      fetch(`/api/users/${userData.user_id}`)
+        .then((res) => res.json())
+        .then((userData) => {
+          // create html post elements
+          for (let i = 0; i < userData.posts.length; i++) {
+            createPostElement(
+              userData.posts[i].title,
+              userData.posts[i].content
+            );
+          }
+        });
+    });
+}
 
 function createPost() {
   fetch("/session")
@@ -29,8 +38,15 @@ function createPost() {
         title: postTitle.value,
         content: postContent.value,
         userId: userData.user_id,
+      }).then((data) => {
+        loadDashboardPosts();
       });
     });
+}
+
+function deletePost() {
+  console.log("trying to delete: ");
+  console.log(this);
 }
 
 async function postData(url = "", data = {}) {
@@ -84,4 +100,22 @@ async function deleteData(url = "") {
     //body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
   return response.json(); // parses JSON response into native JavaScript objects
+}
+
+function createPostElement(title = "", content = "") {
+  var postContainer = document.createElement("DIV");
+  var header = document.createElement("H3");
+  var p = document.createElement("P");
+
+  postContainer.className = "row post mx-auto";
+  header.className = "title";
+  p.className = "description";
+
+  header.innerText = title;
+  p.innerText = content;
+
+  postContainer.appendChild(header);
+  postContainer.appendChild(p);
+
+  myPostContainer.appendChild(postContainer);
 }

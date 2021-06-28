@@ -14,11 +14,15 @@ router.get("/", (req, res) => {
     });
 });
 
+// GET User and thier posts
 router.get("/:id", (req, res) => {
   User.findOne({
     attributes: { exclude: ["password"] },
     where: {
       id: req.params.id,
+    },
+    include: {
+      model: Post,
     },
   })
     .then((dbUserData) => {
