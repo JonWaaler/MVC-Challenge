@@ -22,7 +22,8 @@ function loadDashboardPosts() {
           for (let i = 0; i < userData.posts.length; i++) {
             createPostElement(
               userData.posts[i].title,
-              userData.posts[i].content
+              userData.posts[i].content,
+              userData.posts[i].id
             );
           }
         });
@@ -45,8 +46,14 @@ function createPost() {
 }
 
 function deletePost() {
-  console.log("trying to delete: ");
-  console.log(this);
+  this.parentNode.remove();
+
+  var id = this.nextSibling.innerText;
+  deleteData(`/api/posts/${id}`)
+    .then((res) => res.json)
+    .then((data) => {
+      console.log(data);
+    });
 }
 
 async function postData(url = "", data = {}) {
@@ -102,20 +109,30 @@ async function deleteData(url = "") {
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
-function createPostElement(title = "", content = "") {
+function createPostElement(title = "", content = "", id = "") {
   var postContainer = document.createElement("DIV");
   var header = document.createElement("H3");
   var p = document.createElement("P");
+  var delBtn = document.createElement("BUTTON");
+  var hiddenIdTag = document.createElement("P");
 
   postContainer.className = "row post mx-auto";
   header.className = "title";
   p.className = "description";
+  delBtn.className = "btn btn-danger del";
+  delBtn.setAttribute("type", "button");
+  delBtn.addEventListener("click", deletePost);
 
   header.innerText = title;
   p.innerText = content;
+  delBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`;
+  hiddenIdTag.innerText = id;
 
   postContainer.appendChild(header);
   postContainer.appendChild(p);
+  postContainer.appendChild(delBtn);
+  postContainer.appendChild(hiddenIdTag);
 
   myPostContainer.appendChild(postContainer);
 }
+// <button type="button" class="btn btn-danger">Danger</button>
