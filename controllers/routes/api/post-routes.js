@@ -18,6 +18,9 @@ router.get("/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
+    include: {
+      model: User,
+    },
   })
     .then((UserData) => res.json(UserData))
     .catch((err) => {

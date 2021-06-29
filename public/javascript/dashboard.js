@@ -18,6 +18,8 @@ function loadDashboardPosts() {
       fetch(`/api/users/${userData.user_id}`)
         .then((res) => res.json())
         .then((userData) => {
+          console.log("USERDATA:");
+          console.log(userData.username);
           // create html post elements
           for (let i = 0; i < userData.posts.length; i++) {
             createPostElement(
@@ -31,6 +33,12 @@ function loadDashboardPosts() {
 }
 
 function createPost() {
+  // Check length of title max: 256 chars
+  if (postTitle.value.length > 255) {
+    return 0;
+  }
+
+  // If title is within max length, create post
   fetch("/session")
     .then((response) => response.json())
     .then((userData) => {
@@ -46,7 +54,7 @@ function createPost() {
 }
 
 function deletePost() {
-  this.parentNode.remove();
+  this.parentNode.parentNode.remove();
 
   var id = this.nextSibling.innerText;
   deleteData(`/api/posts/${id}`)
@@ -108,13 +116,52 @@ async function deleteData(url = "") {
   });
   return response.json(); // parses JSON response into native JavaScript objects
 }
+/*
+<div class="row post mx-auto">
+    <h6>posted by: jonw</h6>
+    <h3 class="title">
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+      ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
+    </h3>
+    <p class="description">
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+      ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis
+      dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies
+      nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+      Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In
+      enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum
+      felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus
+      elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo
+      ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem
+      ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla
+      ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies
+      nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam
+      rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper
+      libero, sit amet adipiscing sem neque sed ipsum. N
+    </p>
 
+
+    <div class="row mx-auto justify-content-center">
+      <h5 id="show-more" style="text-decoration: underline;">
+        show more
+      </h5>
+      <button class="btn btn-danger del" type="button">
+        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+      </button>
+    </div>
+    <p class="hide">1</p>
+  </div>
+*/
 function createPostElement(title = "", content = "", id = "") {
   var postContainer = document.createElement("DIV");
   var header = document.createElement("H3");
   var p = document.createElement("P");
-  var delBtn = document.createElement("BUTTON");
   var hiddenIdTag = document.createElement("P");
+  var creator = document.createElement("H6");
+
+  var bottomDiv = document.createElement("DIV");
+  var showmore = document.createElement("H5");
+  var delBtn = document.createElement("BUTTON");
 
   postContainer.className = "row post mx-auto";
   header.className = "title";
@@ -122,17 +169,31 @@ function createPostElement(title = "", content = "", id = "") {
   delBtn.className = "btn btn-danger del";
   delBtn.setAttribute("type", "button");
   delBtn.addEventListener("click", deletePost);
-
+  bottomDiv.className = "row mx-auto justify-content-center btm-div";
+  showmore.style = "text-decoration: underline;";
+  showmore.innerText = "expand post";
+  console.log("CREATOR: " + creator);
   header.innerText = title;
   p.innerText = content;
   delBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`;
   hiddenIdTag.innerText = id;
+  hiddenIdTag.className = "hide";
 
-  postContainer.appendChild(header);
-  postContainer.appendChild(p);
-  postContainer.appendChild(delBtn);
-  postContainer.appendChild(hiddenIdTag);
+  fetch(`/session`)
+    .then((res) => res.json())
+    .then((userData) => {
+      console.log(userData);
+      creator.innerText = "posted by: " + userData.username;
 
-  myPostContainer.appendChild(postContainer);
+      postContainer.appendChild(creator);
+      postContainer.appendChild(header);
+      postContainer.appendChild(p);
+
+      bottomDiv.appendChild(showmore);
+      bottomDiv.appendChild(delBtn);
+      bottomDiv.appendChild(hiddenIdTag);
+      postContainer.appendChild(bottomDiv);
+
+      myPostContainer.appendChild(postContainer);
+    });
 }
-// <button type="button" class="btn btn-danger">Danger</button>
