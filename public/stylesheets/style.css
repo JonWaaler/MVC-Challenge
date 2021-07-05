@@ -118,8 +118,8 @@ textarea {
 
 .post h6 {
   color: #ccc;
-  text-decoration: underline;
-  text-align: right;
+  text-decoration: dotted;
+  text-align: center;
 }
 
 .post h5 {

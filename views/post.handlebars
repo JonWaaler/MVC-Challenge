@@ -1,0 +1,23 @@
+<div id="single-post" class="container post">
+  <div class="modal-container">
+    <div class="modal-header row mx-auto">
+      <h6>@{{username}} | {{post.dataValues.createdAt}}</h6>
+    </div>
+    <div class="modal-body row mx-auto">
+      <h3 type="text" class="title">{{post.dataValues.title}}</h3>
+      <p>{{post.dataValues.content}}</p>
+    </div>
+    {{#if isPoster}}
+      <div class="modal-footer d-flex justify-content-center">
+        <p id="post-id" style="display: none;">{{post.dataValues.id}}</p>
+        <button id="edit-post" class="btn btn-warning">edit</button>
+        <button
+          id="delete-post"
+          class="btn btn-danger"
+          onclick="deletePostModal()"
+        >delete</button>
+      </div>
+    {{/if}}
+  </div>
+</div>
+<script src="/javascript/post.js"></script>
